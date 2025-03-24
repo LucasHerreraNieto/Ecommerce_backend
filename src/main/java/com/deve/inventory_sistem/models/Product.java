@@ -1,35 +1,30 @@
 package com.deve.inventory_sistem.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
- public class Product {
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     private String name;
     private float price;
     private int code;
 
-    public Product(){}
+    @ManyToMany(mappedBy = "products")
+    private List<Category> categories;
 
-    public Product(String name, float price) {
+    public Product() {}
+
+    public Product(String name, float price, int code) {
         this.name = name;
         this.price = price;
+        this.code = code;
     }
 
-   public int getCode() {
-      return code;
-   }
-
-   public void setCode(int code) {
-      this.code = code;
-   }
-
-   public long getId() {
+    public long getId() {
         return id;
     }
 
@@ -51,5 +46,21 @@ import jakarta.persistence.Id;
 
     public void setPrice(float price) {
         this.price = price;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
     }
 }

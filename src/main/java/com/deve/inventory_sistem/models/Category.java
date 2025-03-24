@@ -1,8 +1,7 @@
 package com.deve.inventory_sistem.models;
 
 import jakarta.persistence.*;
-
-import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Category {
@@ -10,12 +9,30 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @ManyToMany
-    @JoinColumn(name="product_id",nullable = false)
-    ArrayList<Product> products = new ArrayList<>();
 
-    public Category(ArrayList<Product> products) {
+    @ManyToMany
+    @JoinTable(
+            name = "category_product",
+            joinColumns = @JoinColumn(name = "category_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
+    private List<Product> products;
+    private String name;
+
+    public Category() {
+    }
+
+    public Category(List<Product> products,String name) {
         this.products = products;
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public long getId() {
@@ -26,11 +43,11 @@ public class Category {
         this.id = id;
     }
 
-    public ArrayList<Product> getProducts() {
+    public List<Product> getProducts() {
         return products;
     }
 
-    public void setProducts(ArrayList<Product> products) {
+    public void setProducts(List<Product> products) {
         this.products = products;
     }
 }

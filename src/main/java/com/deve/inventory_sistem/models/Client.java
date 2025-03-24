@@ -2,30 +2,34 @@ package com.deve.inventory_sistem.models;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
+
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Sale> sales;
+
+    @Transient // No se guarda en la base de datos
     private String cardNumber;
+
+    @Transient // No se guarda en la base de datos
     private String secureNumber;
+
+    @Transient // No se guarda en la base de datos
     private LocalDateTime cardExpirationDate;
 
     // Constructor vacío
     public Client() {}
 
+    // Constructor con nombre
     public Client(String name){
         this.name = name;
-    }
-
-    // Constructor con parámetros
-    public Client(String name, String cardNumber, String secureNumber, LocalDateTime cardExpirationDate) {
-        this.name = name;
-        this.cardNumber = cardNumber;
-        this.secureNumber = secureNumber;
-        this.cardExpirationDate = cardExpirationDate;
     }
 
     // Getters y Setters
@@ -35,12 +39,6 @@ public class Client {
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
-    public String getCardNumber() { return cardNumber; }
-    public void setCardNumber(String cardNumber) { this.cardNumber = cardNumber; }
-
-    public String getSecureNumber() { return secureNumber; }
-    public void setSecureNumber(String secureNumber) { this.secureNumber = secureNumber; }
-
-    public LocalDateTime getCardExpirationDate() { return cardExpirationDate; }
-    public void setCardExpirationDate(LocalDateTime cardExpirationDate) { this.cardExpirationDate = cardExpirationDate; }
+    public List<Sale> getSales() { return sales; }
+    public void setSales(List<Sale> sales) { this.sales = sales; }
 }
